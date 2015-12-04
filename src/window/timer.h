@@ -1,3 +1,6 @@
+#ifndef CRAGMOOR_WINDOW_TIMER_H
+#define CRAGMOOR_WINDOW_TIMER_H
+
 //----STANDARD----
 #include "chrono"
 
@@ -17,3 +20,5 @@ namespace Cragmoor
 		};
 	}
 }
+
+#endif

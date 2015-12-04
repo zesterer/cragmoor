@@ -9,11 +9,22 @@ namespace Cragmoor
 		{
 			this->window = SDL_CreateWindow("Cragmoor", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
 			this->surface = SDL_GetWindowSurface(this->window);
+			
+			this->renderer = SDL_CreateRenderer(this->window, -1, 0);
+		}
+		
+		Window::~Window()
+		{
+			//SDL_DestroyWindow(this->window);
+			SDL_DestroyRenderer(this->renderer);
+			
+			SDL_Quit();
 		}
 		
 		void Window::blank()
 		{
-			SDL_FillRect(this->surface, NULL, SDL_MapRGB(this->surface->format, 0xFF, 0xFF, 0xFF));
+			SDL_SetRenderDrawColor(this->renderer, 255, 0, 0, 255);
+			SDL_RenderFillRect(this->renderer, NULL);
 		}
 		
 		void Window::fetchEvents()
@@ -44,9 +55,9 @@ namespace Cragmoor
 		{
 			this->fetchEvents();
 			
-			SDL_UpdateWindowSurface(this->window);
+			SDL_RenderPresent(this->renderer);
 			
-			//SDL_Delay(20);
+			SDL_Delay(20);
 		}
 		
 		void Window::lockSurface(bool lock)
@@ -55,6 +66,24 @@ namespace Cragmoor
 				SDL_UnlockSurface(this->surface);
 			else
 				SDL_LockSurface(this->surface);
+		}
+		
+		void Window::renderTexture(Texture* texture, SDL_Rect source, SDL_Rect target)
+		{
+			//SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
+			SDL_RenderCopy(this->renderer, texture->getInternal(), &source, &target);
+		}
+		
+		SDL_Renderer* Window::getInternalRenderer()
+		{
+			return this->renderer;
+		}
+		
+		void Window::renderRectangle(SDL_Rect rectangle, Colour colour)
+		{
+			SDL_SetRenderDrawColor(this->renderer, colour.r, colour.g, colour.b, 255);
+			SDL_RenderFillRect(this->renderer, &rectangle);
+			SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
 		}
 	}
 }

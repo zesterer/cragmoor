@@ -1,3 +1,6 @@
+#ifndef CRAGMOOR_RENDERER_RENDERER_H
+#define CRAGMOOR_RENDERER_RENDERER_H
+
 //----LIBRARY----
 #include "SDL2/SDL_image.h"
 
@@ -21,6 +24,10 @@ namespace Cragmoor
 				Renderer(Game::Game* game, Window::Window* window);
 				
 				void tick();
+				
+				void drawSymbol(byte symbol, short x, short y, Colour foreground = Colour(255, 255, 255), Colour background = Colour(0, 0, 0));
 		};
 	}
 }
+
+#endif
