@@ -30,7 +30,7 @@ set(APPLICATION_SOURCE_DIRS)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules" ${CMAKE_MODULE_PATH})
 
 #Tell the compiler to include -std=c++11
-add_definitions(-std=c++11 -Wall -g3 -O3)
+add_definitions("-std=c++11" "-Wall" "-Wextra" "-pedantic" "-g3" "-O3")
 
 #######################
 #### ADD LIBRARIES ####

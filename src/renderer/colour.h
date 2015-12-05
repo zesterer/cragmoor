@@ -1,6 +1,9 @@
 #ifndef CRAGMOOR_RENDERER_COLOUR_H
 #define CRAGMOOR_RENDERER_COLOUR_H
 
+//----STANDARD----
+#include "string"
+
 //----LOCAL----
 #include "common/types.h"
 
@@ -14,9 +17,16 @@ namespace Cragmoor
 		
 		Colour(int r, int g, int b)
 		{
-			this->r = r;
-			this->g = g;
-			this->b = b;
+			this->r = std::max(0, std::min(r, 255));
+			this->g = std::max(0, std::min(g, 255));
+			this->b = std::max(0, std::min(b, 255));
+		}
+		
+		Colour(int c)
+		{
+			this->r = (c >> 16) % 256;
+			this->g = (c >> 8) % 256;
+			this->b = (c >> 0) % 256;
 		}
 		
 		byte getR() {return this->r;}

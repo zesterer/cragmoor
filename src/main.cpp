@@ -14,13 +14,23 @@ int main(int argc, char* argv[])
 	
 	Cragmoor::Renderer::Renderer renderer(&game, &window);
 	
+	Cragmoor::Window::Timer timer;
+	int ticks = 0;
 	while (!window.shouldClose())
 	{
+		ticks ++;
 		window.blank();
 		
 		renderer.tick();
 		
 		window.update();
+		
+		if (timer.getTime() >= 1.0)
+		{
+			timer.reset();
+			printf(("FPS:" + std::to_string(ticks) + "\n").c_str());
+			ticks = 0;
+		}
 	}
 	
 	return 0;
