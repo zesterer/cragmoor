@@ -70,7 +70,6 @@ namespace Cragmoor
 		
 		void Window::renderTexture(Texture* texture, SDL_Rect source, SDL_Rect target)
 		{
-			//SDL_SetRenderDrawBlendMode(this->renderer, SDL_BLENDMODE_BLEND);
 			SDL_RenderCopy(this->renderer, texture->getInternal(), &source, &target);
 		}
 		

@@ -60,5 +60,15 @@ namespace Cragmoor
 		{
 			SDL_SetTextureColorMod(this->texture, colour.r, colour.g, colour.b);
 		}
+		
+		int Texture::getWidth()
+		{
+			return this->width;
+		}
+		
+		int Texture::getHeight()
+		{
+			return this->height;
+		}
 	}
 }

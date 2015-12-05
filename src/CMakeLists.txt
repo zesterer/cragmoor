@@ -15,6 +15,7 @@
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/window")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/renderer")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/game")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/common")
 
 #################
 #### SOURCES ####

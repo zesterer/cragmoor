@@ -1,10 +1,11 @@
 #ifndef CRAGMOOR_RENDERER_COLOUR_H
 #define CRAGMOOR_RENDERER_COLOUR_H
 
+//----LOCAL----
+#include "common/types.h"
+
 namespace Cragmoor
 {
-	typedef unsigned char byte;
-	
 	struct Colour
 	{
 		byte r = 0;

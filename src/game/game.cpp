@@ -9,5 +9,10 @@ namespace Cragmoor
 		{
 			//Constructor
 		}
+		
+		World::World* Game::getWorld()
+		{
+			return &this->world;
+		}
 	}
 }

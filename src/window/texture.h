@@ -34,6 +34,8 @@ namespace Cragmoor
 				void draw(SDL_Rect source, SDL_Rect target);
 				SDL_Texture* getInternal();
 				void setColour(Colour colour);
+				int getWidth();
+				int getHeight();
 		};
 	}
 }
