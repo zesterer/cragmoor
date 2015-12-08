@@ -34,13 +34,7 @@ namespace Cragmoor
 			
 			std::string str = "Welcome, young traveller, to the kingdom of Cragmoor.\n\nAlthough the wind may blow and the rain may pour, you must venture onwards. A little to the north there exists a small hamlet by which you may obtain provisions and a bed for the night. Alas, I must leave you now, but I wish you luck and bid thee farewell.";
 			
-			this->drawText(3, 3, this->window->getWidth() - 6, 10, str, 11);
-			
-			/*for (int i = 0; i < (int)str.size(); i ++)
-			{
-				char c = str[i];
-				this->window->setCell(i % (this->window->getWidth() - 6) + 3, i / (this->window->getWidth() - 6) + 3, OutputCell(c, 11, 3));
-			}*/
+			this->drawText(3, 3, this->window->getWidth() - 6, 6, str, 11);
 			
 			this->should_close |= this->window->tick();
 			
@@ -104,7 +98,7 @@ namespace Cragmoor
 				bool skip_char = false;
 				unsigned int str_id = lines.size() - 1;
 				
-				if (lines[str_id].size() >= w)
+				if (lines[str_id].size() >= (unsigned int)w)
 				{
 					lines.emplace_back();
 					
@@ -125,15 +119,22 @@ namespace Cragmoor
 					if (text[i] == '\n')
 					{
 						lines.emplace_back();
+						str_id = lines.size() - 1;
 						skip_char = true;
 					}
 					
 					if (!skip_char)
 						lines[str_id] += text[i];
 				}
+				
+				if (str_id >= (unsigned int)h)
+					break;
 			}
 			
-			for (unsigned int j = 0; j < lines.size(); j ++)
+			if ((unsigned int)w > lines.size())
+				w = lines.size();
+			
+			for (short j = 0; j < w; j ++)
 			{
 				this->drawString(x, y + j, lines[j], colour);
 			}

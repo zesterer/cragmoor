@@ -3,6 +3,7 @@
 
 //----LOCAL----
 #include "world/world.h"
+#include "entity/entity.h"
 
 namespace Cragmoor
 {
@@ -12,6 +13,7 @@ namespace Cragmoor
 		{
 			private:
 				World::World world;
+				std::vector<Entity::Entity*> entities;
 			public:
 				Game();
 				
