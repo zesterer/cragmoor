@@ -1,52 +1,78 @@
 //----LOCAL----
 #include "renderer.h"
+#include "graphicalwindow.h"
+#include "curseswindow.h"
 
 namespace Cragmoor
 {
 	namespace Renderer
 	{
-		Renderer::Renderer(Game::Game* game, Window::Window* window)
+		Renderer::Renderer(Game::Game* game)
 		{
 			this->game = game;
 			this->window = window;
 			
-			this->board.setWindow(this->window);
-			this->board.initiate();
+			//this->window = new CursesWindow();
+			this->window = new GraphicalWindow();
+			
+			this->window->initiate();
+		}
+		
+		Renderer::~Renderer()
+		{
+			delete this->window;
 		}
 		
 		void Renderer::tick()
 		{
 			this->renderGame();
 			
-			this->board.setRect('#', 0, 0, this->board.getWidth(), 12, Colour(0xb79e4b), Colour(0x6d552f));
-			this->board.setRect(' ', 1, 1, this->board.getWidth() - 2, 10, Colour(0xb79e4b), Colour(0x6d552f));
+			this->drawRectangle(0, 0, this->window->getWidth(), 12, OutputCell('#', 11, 3));
+			this->drawRectangle(1, 1, this->window->getWidth() - 2, 10, OutputCell(' ', 11, 3));
 			
 			std::string str = "Welcome, young traveller, to the kingdom of Cragmoor. Although the wind may blow and the rain may pour, you must venture onwards. A little to the north there exists a small hamlet by which you may obtain provisions and a bed for the night. Alas, I must leave you now, but I wish you luck and bid thee farewell.";
 			
 			for (int i = 0; i < (int)str.size(); i ++)
 			{
 				char c = str[i];
-				this->board.setChar(c, i % (this->board.getWidth() - 2) + 1, i / (this->board.getWidth() - 2) + 1, Colour(0xb79e4b));
+				this->window->setCell(i % (this->window->getWidth() - 2) + 1, i / (this->window->getWidth() - 2) + 1, OutputCell(c, 11, 3));
 			}
 			
-			this->board.tick();
+			this->should_close |= this->window->tick();
+			
 			this->time ++;
 		}
 		
 		void Renderer::renderGame()
 		{
-			char grass[4] = {'`', '"','.', ';'};
+			char grass[4] = {(char)247, '*','.', ':'};
 			
-			for (int i = 0; i < this->board.getWidth(); i ++)
+			for (int i = 0; i < this->window->getWidth(); i ++)
 			{
-				for (int j = 0; j < this->board.getHeight(); j ++)
+				for (int j = 0; j < this->window->getHeight(); j ++)
 				{
-					byte v = (this->game->getWorld()->getCell(i + this->time / 2, j)->height / 64) * 64;
-					this->board.setCell(grass[this->game->getWorld()->getCell(i + this->time / 2, j)->height % 4], i, j, Colour(20, v, 20), Colour(20, v + 40, 20));
+					byte h = this->game->getWorld()->getCell(i + this->time / 4, j)->height;
+					this->window->setCell(i, j, OutputCell(grass[h % 4], 2 + 8 * (h % 2), 2 + 8 * ((h + 1) % 2)));
 				}
 			}
 			
-			this->board.setChar('@', 9 + this->time, 20 + this->time / 4, Colour(0x804020));
+			this->window->setCell(9 + this->time / 2, 20 + this->time / 6, OutputCell(1, 1, 0));
+		}
+		
+		bool Renderer::shouldClose()
+		{
+			return this->should_close;
+		}
+		
+		void Renderer::drawRectangle(short x, short y, short w, short h, OutputCell cell)
+		{
+			for (short i = 0; i < w; i ++)
+			{
+				for (short j = 0; j < h; j ++)
+				{
+					this->window->setCell(x + i, y + j, cell);
+				}
+			}
 		}
 	}
 }

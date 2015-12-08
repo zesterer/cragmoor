@@ -6,7 +6,7 @@
 
 //----LOCAL----
 #include "game/game.h"
-#include "asciiboard.h"
+#include "outputwindow.h"
 
 namespace Cragmoor
 {
@@ -17,14 +17,20 @@ namespace Cragmoor
 			private:
 				long time = 0;
 				Game::Game* game;
-				Window::Window* window;
 				
-				ASCIIBoard board;
+				bool should_close = false;
+				
+				OutputWindow* window;
 			public:
-				Renderer(Game::Game* game, Window::Window* window);
+				Renderer(Game::Game* game);
+				~Renderer();
 				
 				void tick();
 				void renderGame();
+				
+				bool shouldClose();
+				
+				void drawRectangle(short x, short y, short w, short h, OutputCell cell = OutputCell(' ', 255, 255));
 		};
 	}
 }

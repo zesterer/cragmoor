@@ -45,7 +45,7 @@ namespace Cragmoor
 			
 			Cell* World::getCell(short x, short y)
 			{
-				return &this->cells[this->height * x + y];
+				return &this->cells[this->height * (x % this->width) + (y % this->height)];
 			}
 		}
 	}

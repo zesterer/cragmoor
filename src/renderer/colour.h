@@ -15,6 +15,13 @@ namespace Cragmoor
 		byte g = 0;
 		byte b = 0;
 		
+		Colour()
+		{
+			this->r = 0;
+			this->g = 0;
+			this->b = 0;
+		}
+		
 		Colour(int r, int g, int b)
 		{
 			this->r = std::max(0, std::min(r, 255));
@@ -27,6 +34,13 @@ namespace Cragmoor
 			this->r = (c >> 16) % 256;
 			this->g = (c >> 8) % 256;
 			this->b = (c >> 0) % 256;
+		}
+		
+		void to8Bit()
+		{
+			this->r &= 0xe0;
+			this->g &= 0xe0;
+			this->b &= 0xc0;
 		}
 		
 		byte getR() {return this->r;}

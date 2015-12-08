@@ -54,6 +54,23 @@ else ()
 	message("SDL could not be found, and is required to build this library")
 endif ()
 
+###########
+# NCURSES #
+###########
+
+set(APPLICATION_LINK_LIBRARIES ${APPLICATION_LINK_LIBRARIES} ncurses)
+
+#Find NCURSES
+#PKG_SEARCH_MODULE(NCURSES REQUIRED)
+
+#if (${NCURSES_FOUND})
+#	message("Found NCURSES")
+#	set(APPLICATION_SOURCE_DIRS ${APPLICATION_SOURCE_DIRS} ${NCURSES_INCLUDE_DIRS})
+#	set(APPLICATION_LINK_LIBRARIES ${APPLICATION_LINK_LIBRARIES} ${NCURSES_LIBRARIES})
+#else ()
+#	message("NCURSES could not be found, and is required to build this library")
+#endif ()
+
 #######
 # GLM #
 #######
