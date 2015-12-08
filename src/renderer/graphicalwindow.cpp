@@ -18,7 +18,7 @@ namespace Cragmoor
 		void GraphicalWindow::initiate()
 		{
 			this->tileset.setWindow(&this->window);
-			this->tileset.loadFromBMP("../data/tileset-12-df.png");
+			this->tileset.loadFromBMP("../data/tileset-10.png");
 			
 			this->tile_w = tileset.getWidth() / 16;
 			this->tile_h = tileset.getHeight() / 16;
@@ -49,23 +49,23 @@ namespace Cragmoor
 			
 			/* Create the colour palette */
 			//Dark colours
-			this->palette[0] = Colour(0, 0, 0);
-			this->palette[1] = Colour(170, 0, 0);
-			this->palette[2] = Colour(0, 170, 0);
-			this->palette[3] = Colour(170, 85, 0);
-			this->palette[4] = Colour(0, 0, 170);
-			this->palette[5] = Colour(170, 0, 170);
-			this->palette[6] = Colour(0, 170, 170);
+			this->palette[0] = Colour(30, 30, 30);
+			this->palette[1] = Colour(170, 30, 30);
+			this->palette[2] = Colour(30, 120, 30);
+			this->palette[3] = Colour(170, 110, 30);
+			this->palette[4] = Colour(30, 30, 170);
+			this->palette[5] = Colour(170, 30, 170);
+			this->palette[6] = Colour(30, 170, 170);
 			this->palette[7] = Colour(170, 170, 170);
 			
 			//Light colours
 			this->palette[8] = Colour(85, 85, 85);
-			this->palette[9] = Colour(255, 85, 85);
-			this->palette[10] = Colour(85, 255, 85);
-			this->palette[11] = Colour(255, 255, 85);
-			this->palette[12] = Colour(85, 85, 255);
-			this->palette[13] = Colour(255, 85, 255);
-			this->palette[14] = Colour(85, 255, 255);
+			this->palette[9] = Colour(210, 85, 85);
+			this->palette[10] = Colour(85, 210, 85);
+			this->palette[11] = Colour(230, 230, 50);
+			this->palette[12] = Colour(85, 85, 210);
+			this->palette[13] = Colour(210, 85, 210);
+			this->palette[14] = Colour(85, 210, 210);
 			this->palette[15] = Colour(255, 255, 255);
 		}
 		
@@ -87,6 +87,8 @@ namespace Cragmoor
 			}
 			
 			this->window.update();
+			
+			SDL_Delay(100);
 			
 			this->swapper = (swapper + 1) % 2;
 			
@@ -110,9 +112,6 @@ namespace Cragmoor
 		
 		void GraphicalWindow::blitSymbol(byte symbol, short x, short y, Colour foreground, Colour background)
 		{
-			//foreground.to8Bit();
-			//background.to8Bit();
-			
 			SDL_Rect src = {(symbol % 16) * this->tile_w, (symbol / 16) * this->tile_h, this->tile_w, this->tile_h};
 			SDL_Rect tgt = {x * this->cell_w, y * this->cell_h, this->cell_w, this->cell_h};
 			

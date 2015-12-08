@@ -17,7 +17,11 @@ namespace Cragmoor
 			private:
 				std::vector<OutputCell> cells[2];
 				
+				std::string char_palette[16];
+				
 				byte swapper = 0;
+				
+				bool supports_colour = false;
 				
 				int width = 96;
 				int height = 32;

@@ -31,6 +31,9 @@ namespace Cragmoor
 				bool shouldClose();
 				
 				void drawRectangle(short x, short y, short w, short h, OutputCell cell = OutputCell(' ', 255, 255));
+				void drawBorder(short x, short y, short w, short h, byte colour = 255);
+				void drawString(short x, short y, std::string text, byte colour);
+				void drawText(short x, short y, short w, short h, std::string text, byte colour);
 		};
 	}
 }

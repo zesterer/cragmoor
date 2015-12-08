@@ -1,6 +1,14 @@
+//----standard----
+#include "pthread.h"
+#include "chrono"
+#include "thread"
+#include "iostream"
+
+//----LIBRARY----
+#include "ncursesw/curses.h"
+
 //----LOCAL----
 #include "curseswindow.h"
-#include "ncurses.h"
 
 namespace Cragmoor
 {
@@ -19,17 +27,17 @@ namespace Cragmoor
 		
 		void CursesWindow::initiate()
 		{
+			setlocale(LC_ALL, "");
 			initscr();
 			cbreak();
 			noecho();
 			keypad(stdscr, TRUE);
 			curs_set(0);
 			
-			move(0, 0);
-			if (!has_colors())
-				printf("Does not support colours");
+			this->supports_colour = has_colors();
 			
-			start_color();
+			if (this->supports_colour)
+				start_color();
 			
 			getmaxyx(stdscr, this->height, this->width);
 			
@@ -51,6 +59,26 @@ namespace Cragmoor
 					this->cells[1].emplace_back(' ', 0, 0);
 				}
 			}
+			
+			this->char_palette[0] =  " @@VvA^.Oo0/|pAX";
+			this->char_palette[1] =  "><k!#$_k^v><Lx^v";
+			this->char_palette[2] =  " !\"#$%&'()*+,-./";
+			this->char_palette[3] =  "0123456789:;<=>?";
+			
+			this->char_palette[4] =  "@ABCDEFGHIJKLMNO";
+			this->char_palette[5] =  "PQRSTUVWXYZ[\\]^_";
+			this->char_palette[6] =  "`abcdefghijklmno";
+			this->char_palette[7] =  "pqrstuvwxyz{|}~^";
+			
+			this->char_palette[8] =  "CueaaaaceeeiiiAA";
+			this->char_palette[9] =  "E&%ooouuyuu0£0xf";
+			this->char_palette[10] = "aiounNaei0_%%i<>";
+			this->char_palette[11] = "###|+++\\\\+|\\///\\";
+			
+			this->char_palette[12] = "\\+++-+++\\/+++-++";
+			this->char_palette[13] = "+++\\\\//++//#_||-";
+			this->char_palette[14] = "aBrnEbUYO0nd8%£n";
+			this->char_palette[15] = "=+><(J%~o..Jn2.O";
 		}
 		
 		bool CursesWindow::tick()
@@ -70,9 +98,11 @@ namespace Cragmoor
 				}
 			}
 			
-			this->swapper = (swapper + 1) % 2;
-			
 			refresh();
+			
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			
+			this->swapper = (swapper + 1) % 2;
 			
 			return false;
 		}
@@ -96,23 +126,14 @@ namespace Cragmoor
 		{
 			move(y, x);
 			
-			byte colourid = foreground * 16 + background;
-			init_pair(colourid, foreground, background);
-			attron(COLOR_PAIR(colourid));
+			if (this->supports_colour)
+			{
+				byte colourid = foreground * 16 + background;
+				init_pair(colourid, foreground, background);
+				attron(COLOR_PAIR(colourid));
+			}
 			
-			printw("%c", symbol % 128);
-			
-			
-			
-			//foreground.to8Bit();
-			//background.to8Bit();
-			
-			//SDL_Rect src = {(symbol % 16) * this->tile_w, (symbol / 16) * this->tile_h, this->tile_w, this->tile_h};
-			//SDL_Rect tgt = {x * this->cell_w, y * this->cell_h, this->cell_w, this->cell_h};
-			
-			//this->window.renderRectangle(tgt, background);
-			//this->tileset.setColour(foreground);
-			//this->tileset.draw(src, tgt);
+			printw("%c", this->char_palette[symbol / 16][symbol % 16]);
 		}
 		
 		void CursesWindow::setCellChar(short x, short y, byte character)

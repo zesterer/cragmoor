@@ -7,7 +7,7 @@ namespace Cragmoor
 	{
 		Window::Window()
 		{
-			this->window = SDL_CreateWindow("Cragmoor", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 640, SDL_WINDOW_SHOWN);
+			this->window = SDL_CreateWindow("Cragmoor", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1200, 840, SDL_WINDOW_SHOWN);
 			this->surface = SDL_GetWindowSurface(this->window);
 			
 			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_SOFTWARE);
@@ -57,8 +57,6 @@ namespace Cragmoor
 			this->fetchEvents();
 			
 			SDL_RenderPresent(this->renderer);
-			
-			SDL_Delay(110);
 		}
 		
 		void Window::lockSurface(bool lock)

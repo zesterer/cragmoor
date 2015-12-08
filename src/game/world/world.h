@@ -6,6 +6,7 @@
 
 //----LOCAL----
 #include "common/types.h"
+#include "floortypelist.h"
 
 namespace Cragmoor
 {
@@ -15,10 +16,13 @@ namespace Cragmoor
 		{
 			struct Cell
 			{
-				byte height = 128;
-				doublebyte material = 0;
-				byte data = 0; //0(1) = filled
-				quadbyte object_id = 0;
+				byte floor_height = 128;
+				byte block_height = 0;
+				
+				doublebyte block_type = 0;
+				doublebyte floor_type = 0;
+				
+				byte data = 0;
 			};
 			
 			class World
@@ -29,6 +33,8 @@ namespace Cragmoor
 					int height = 1024;
 					octbyte seed = 142857;
 				public:
+					FloorTypeList floor_types;
+					
 					World();
 					void clear();
 					void generate();

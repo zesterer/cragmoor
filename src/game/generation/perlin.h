@@ -3,7 +3,9 @@
 
 //----LIBRARY----
 #include "glm/glm.hpp"
-#include "glm/vec3.hpp"
+
+//----LOCAL----
+#include "common/types.h"
 
 namespace Cragmoor
 {

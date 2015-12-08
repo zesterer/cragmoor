@@ -32,7 +32,7 @@ namespace Cragmoor
 				eq &= this->character == other.character;
 				eq &= this->foreground == other.foreground;
 				eq &= this->background == other.background;
-				return !eq;
+				return eq;
 			}
 			
 			bool operator==(const OutputCell& other) { return this->equalTo(other); }
