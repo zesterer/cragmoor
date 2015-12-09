@@ -161,5 +161,10 @@ namespace Cragmoor
 			old->foreground = cell.foreground;
 			old->background = cell.background;
 		}
+		
+		InputState CursesWindow::getInputState()
+		{
+			return InputState();
+		}
 	}
 }

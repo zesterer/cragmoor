@@ -19,6 +19,10 @@ namespace Cragmoor
 				public:
 					Entity();
 					
+					virtual void tick();
+					
+					virtual void move(int x, int y);
+					
 					virtual Position getPosition() { return this->pos; }
 					virtual byte getCharacter() { return this->character; }
 					virtual byte getColour() { return this->colour; }

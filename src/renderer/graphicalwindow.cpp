@@ -145,5 +145,19 @@ namespace Cragmoor
 			old->foreground = cell.foreground;
 			old->background = cell.background;
 		}
+		
+		InputState GraphicalWindow::getInputState()
+		{
+			InputState input;
+			const Uint8* states = SDL_GetKeyboardState(NULL);
+			
+			//Arrow keys
+			input.keyUP = states[SDL_SCANCODE_UP] == 1;
+			input.keyLEFT = states[SDL_SCANCODE_LEFT] == 1;
+			input.keyDOWN = states[SDL_SCANCODE_DOWN] == 1;
+			input.keyRIGHT = states[SDL_SCANCODE_RIGHT] == 1;
+			
+			return input;
+		}
 	}
 }

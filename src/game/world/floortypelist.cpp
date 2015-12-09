@@ -20,9 +20,9 @@ namespace Cragmoor
 				this->types.push_back({'~', 14, 0, "Deep Fresh Water"});
 			}
 			
-			FloorType* FloorTypeList::getType(doublebyte id)
+			FloorType FloorTypeList::getType(doublebyte id)
 			{
-				return &this->types[id % this->types.size()];
+				return this->types[id % this->types.size()];
 			}
 		}
 	}

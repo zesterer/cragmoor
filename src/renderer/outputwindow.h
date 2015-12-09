@@ -13,6 +13,26 @@ namespace Cragmoor
 {
 	namespace Renderer
 	{
+		enum OutputColour
+		{
+			BLACK = 0,
+			RED = 1,
+			GREEN = 2,
+			YELLOW = 3,
+			BLUE = 4,
+			MAGENTA = 5,
+			CYAN = 6,
+			GREY = 7,
+			DARK_GREY = 0,
+			LIGHT_RED = 1,
+			LIGHT_GREEN = 2,
+			LIGHT_YELLOW = 3,
+			LIGHT_BLUE = 4,
+			LIGHT_MAGENTA = 5,
+			LIGHT_CYAN = 6,
+			WHITE = 7
+		};
+		
 		struct OutputCell
 		{
 			byte character = ' ';
@@ -39,6 +59,14 @@ namespace Cragmoor
 			bool operator!=(const OutputCell& other) { return !this->equalTo(other); }
 		};
 		
+		struct InputState
+		{
+			bool keyUP = false;
+			bool keyLEFT = false;
+			bool keyDOWN = false;
+			bool keyRIGHT = false;
+		};
+		
 		class OutputWindow
 		{
 			private:
@@ -47,8 +75,11 @@ namespace Cragmoor
 				virtual bool tick() = 0;
 				
 				virtual OutputCell* getCell(short x, short y) = 0;
+				
 				virtual short getWidth() = 0;
 				virtual short getHeight() = 0;
+				
+				virtual InputState getInputState() = 0;
 				
 				virtual void setCellChar(short x, short y, byte character = ' ') = 0;
 				virtual void setCellForeground(short x, short y, byte foreground = 0) = 0;

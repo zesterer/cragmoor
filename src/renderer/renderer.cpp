@@ -27,6 +27,23 @@ namespace Cragmoor
 		
 		void Renderer::tick()
 		{
+			/* Process Input */
+			int xx = 0;
+			int yy = 0;
+			InputState inputs = this->window->getInputState();
+			
+			if (inputs.keyUP)
+				yy --;
+			if (inputs.keyLEFT)
+				xx --;
+			if (inputs.keyDOWN)
+				yy ++;
+			if (inputs.keyRIGHT)
+				xx ++;
+			
+			this->game->setViewFocus(this->game->getViewFocus() + Position(xx, yy));
+			
+			/* Render things */
 			this->renderGame();
 			
 			this->drawRectangle(2, 2, this->window->getWidth() - 4, 10, OutputCell(' ', 11, 3));
@@ -36,6 +53,8 @@ namespace Cragmoor
 			
 			this->drawText(3, 3, this->window->getWidth() - 6, 6, str, 11);
 			
+			/* Update things */
+			
 			this->should_close |= this->window->tick();
 			
 			this->time ++;
@@ -43,29 +62,38 @@ namespace Cragmoor
 		
 		void Renderer::renderGame()
 		{
-			for (int i = 0; i < this->window->getWidth(); i ++)
+			Game::World::World* world = this->game->getWorld();
+			
+			Position focus = this->game->getViewFocus();
+			focus.x = std::max(0, std::min(world->getWidth(), focus.x));
+			focus.y = std::max(0, std::min(world->getHeight(), focus.y));
+			
+			int width = this->window->getWidth();
+			int height = this->window->getHeight();
+			
+			//Render floor types
+			for (int x = 0; x < width; x ++)
 			{
-				for (int j = 0; j < this->window->getHeight(); j ++)
+				for (int y = 0; y < height; y ++)
 				{
-					int x = i + this->time;
-					int y = j - this->time / 6;
+					Game::World::Cell* cell = world->getCell(focus.x + x, focus.y + y);
+					Game::World::FloorType floortype = world->getFloorType(cell->floor_type);
 					
-					Game::World::Cell* cell = this->game->getWorld()->getCell(x, y);
-					Game::World::FloorType* floortype = this->game->getWorld()->floor_types.getType(cell->floor_type);
-					
-					//this->window->setCell(i, j, OutputCell(floortype->character, 2 + 8 * ((h / 128 + ((y ^ x ^ h) % 6) / 5) % 2), 0));
-					this->window->setCell(i, j, OutputCell(floortype->character, floortype->foreground, floortype->background));
+					this->window->setCell(x, y, OutputCell(floortype.character, floortype.foreground, floortype.background));
 				}
 			}
 			
-			this->window->setCellChar(9 + this->time / 4, 20 + this->time / 6, 2);
-			this->window->setCellForeground(9 + this->time / 4, 20 + this->time / 6, 219);
-			
-			this->window->setCellChar(60 + this->time / 3, 29 + this->time / 8, 2);
-			this->window->setCellForeground(60 + this->time / 3, 29 + this->time / 8, 5);
-			
-			this->window->setCellChar(30 + this->time / 11, 60 + this->time / 3, 1);
-			this->window->setCellForeground(30 + this->time / 11, 60 + this->time / 3, 3);
+			//Render entities
+			for (int i = 0; i < this->game->getEntityCount(); i ++)
+			{
+				Game::Entity::Entity* entity = this->game->getEntity(i);
+				
+				if (entity->getPosition().isInRectangle(focus.x, focus.y, width, height))
+				{
+					this->window->setCellChar(entity->getPosition().x - focus.x, entity->getPosition().y - focus.y, entity->getCharacter());
+					this->window->setCellForeground(entity->getPosition().x - focus.x, entity->getPosition().y - focus.y, entity->getColour());
+				}
+			}
 		}
 		
 		bool Renderer::shouldClose()

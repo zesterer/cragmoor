@@ -36,7 +36,7 @@ namespace Cragmoor
 					std::vector<FloorType> types;
 				public:
 					FloorTypeList();
-					FloorType* getType(doublebyte id);
+					FloorType getType(doublebyte id);
 			};
 		}
 	}

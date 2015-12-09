@@ -20,6 +20,31 @@ namespace Cragmoor
 			this->x = x;
 			this->y = y;
 		}
+		
+		bool isInRectangle(int x, int y, int w, int h)
+		{
+			return this->x >= x && this->y >= y && this->x - w < x && this->y - h < y;
+		}
+		
+		Position& operator+(const Position& pos)
+		{
+			this->x += pos.x;
+			this->y += pos.y;
+			return *this;
+		}
+		
+		Position& operator-(const Position& pos)
+		{
+			this->x -= pos.x;
+			this->y -= pos.y;
+			return *this;
+		}
+		Position& operator-()
+		{
+			this->x *= -1;
+			this->y *= -1;
+			return *this;
+		}
 	};
 }
 

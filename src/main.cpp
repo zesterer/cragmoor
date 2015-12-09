@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
 	
 	while (!renderer.shouldClose())
 	{
+		game.tick();
+		
 		renderer.tick();
 		
 		/*if (timer.getTime() >= 1.0)

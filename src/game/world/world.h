@@ -29,17 +29,24 @@ namespace Cragmoor
 			{
 				private:
 					std::vector<Cell> cells;
+					
 					int width = 1024;
 					int height = 1024;
 					octbyte seed = 142857;
-				public:
-					FloorTypeList floor_types;
 					
+					FloorTypeList floor_types;
+				public:
 					World();
+					
 					void clear();
 					void generate();
 					
+					void tick();
+					
 					Cell* getCell(short i, short j);
+					int getWidth() { return this->width; }
+					int getHeight() { return this->height; }
+					FloorType getFloorType(doublebyte id) { return this->floor_types.getType(id); };
 			};
 		}
 	}

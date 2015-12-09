@@ -56,6 +56,11 @@ namespace Cragmoor
 				printf("Generated the world.\n");
 			}
 			
+			void World::tick()
+			{
+				//Tick
+			}
+			
 			Cell* World::getCell(short x, short y)
 			{
 				return &this->cells[this->height * (x % this->width) + (y % this->height)];

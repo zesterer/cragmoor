@@ -41,6 +41,8 @@ namespace Cragmoor
 				short getWidth() override;
 				short getHeight() override;
 				
+				InputState getInputState() override;
+				
 				void setCellChar(short x, short y, byte character = ' ') override;
 				void setCellForeground(short x, short y, byte foreground = 0) override;
 				void setCellBackground(short x, short y, byte background = 0) override;
