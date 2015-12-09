@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include "graphicalwindow.h"
 #include "curseswindow.h"
+#include "generic/messagebox.h"
 
 namespace Cragmoor
 {
@@ -18,6 +19,11 @@ namespace Cragmoor
 				this->window = new GraphicalWindow();
 			
 			this->window->initiate();
+			
+			std::string str = "Welcome, young traveller, to the kingdom of Cragmoor.\n\nAlthough the wind may blow and the rain may pour, you must venture onwards. A little to the north there exists a small hamlet by which you may obtain provisions and a bed for the night. Alas, I must leave you now, but I wish you luck and bid thee farewell.";
+			this->dialogs.push_back(new Generic::MessageBox("Welcome!", str, 2, 2, this->window->getWidth() - 4, 8));
+			
+			this->dialogs.push_back(new Generic::MessageBox("Controls & Keys", "Use the arrowkeys to move the view around!", 2, this->window->getHeight() - 7, 32, 4));
 		}
 		
 		Renderer::~Renderer()
@@ -43,15 +49,27 @@ namespace Cragmoor
 			
 			this->game->setViewFocus(this->game->getViewFocus() + Position(xx, yy));
 			
+			/* Process dialogs */
+			for (unsigned int i = 0; i < this->dialogs.size(); i ++)
+			{
+				Generic::Dialog* dialog = this->dialogs[i];
+				dialog->tick(inputs);
+			}
+			
 			/* Render things */
 			this->renderGame();
 			
-			this->drawRectangle(2, 2, this->window->getWidth() - 4, 10, OutputCell(' ', 11, 3));
-			this->drawBorder(2, 2, this->window->getWidth() - 4, 10, 11);
+			//this->drawRectangle(2, 2, this->window->getWidth() - 4, 10, OutputCell(' ', 11, 3));
+			//this->drawBorder(2, 2, this->window->getWidth() - 4, 10, 11);
 			
-			std::string str = "Welcome, young traveller, to the kingdom of Cragmoor.\n\nAlthough the wind may blow and the rain may pour, you must venture onwards. A little to the north there exists a small hamlet by which you may obtain provisions and a bed for the night. Alas, I must leave you now, but I wish you luck and bid thee farewell.";
+			//this->drawText(3, 3, this->window->getWidth() - 6, 6, str, 11);
 			
-			this->drawText(3, 3, this->window->getWidth() - 6, 6, str, 11);
+			/* Draw dialogs */
+			for (unsigned int i = 0; i < this->dialogs.size(); i ++)
+			{
+				Generic::Dialog* dialog = this->dialogs[i];
+				dialog->draw(this);
+			}
 			
 			/* Update things */
 			
@@ -151,6 +169,9 @@ namespace Cragmoor
 						skip_char = true;
 					}
 					
+					if (text[i] == '\0')
+						skip_char = true;
+					
 					if (!skip_char)
 						lines[str_id] += text[i];
 				}
@@ -159,10 +180,10 @@ namespace Cragmoor
 					break;
 			}
 			
-			if ((unsigned int)w > lines.size())
-				w = lines.size();
+			if ((unsigned int)h > lines.size())
+				h = lines.size();
 			
-			for (short j = 0; j < w; j ++)
+			for (short j = 0; j < h; j ++)
 			{
 				this->drawString(x, y + j, lines[j], colour);
 			}

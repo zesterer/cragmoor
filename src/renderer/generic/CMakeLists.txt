@@ -12,7 +12,7 @@
 #### Subdirectories ####
 ########################
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/generic")
+#add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/world")
 
 #################
 #### SOURCES ####
@@ -29,9 +29,6 @@ PARENT_SCOPE
 #Add the appropriate source files
 set(APPLICATION_SOURCE_FILES
 ${APPLICATION_SOURCE_FILES}
-"${CMAKE_CURRENT_SOURCE_DIR}/colour.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/renderer.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/graphicalwindow.cpp"
-"${CMAKE_CURRENT_SOURCE_DIR}/curseswindow.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/messagebox.cpp"
 PARENT_SCOPE
 )

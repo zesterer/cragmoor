@@ -7,6 +7,7 @@
 //----LOCAL----
 #include "game/game.h"
 #include "outputwindow.h"
+#include "generic/dialog.h"
 
 namespace Cragmoor
 {
@@ -21,6 +22,8 @@ namespace Cragmoor
 				bool should_close = false;
 				
 				OutputWindow* window;
+				
+				std::vector<Generic::Dialog*> dialogs;
 			public:
 				Renderer(Game::Game* game);
 				~Renderer();
@@ -29,6 +32,8 @@ namespace Cragmoor
 				void renderGame();
 				
 				bool shouldClose();
+				
+				OutputWindow* getWindow() { return this->window; };
 				
 				void drawRectangle(short x, short y, short w, short h, OutputCell cell = OutputCell(' ', 255, 255));
 				void drawBorder(short x, short y, short w, short h, byte colour = 255);
