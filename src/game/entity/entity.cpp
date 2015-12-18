@@ -20,7 +20,7 @@ namespace Cragmoor
 				if (rand() % 30 == 0)
 					this->dir = Position(rand() % 3 - 1, rand() % 3 - 1);
 				
-				if (this->time % 1 == 0)
+				if (this->time % 2 == 0)
 					this->move(this->dir.x, this->dir.y);
 				
 				//Limit position
