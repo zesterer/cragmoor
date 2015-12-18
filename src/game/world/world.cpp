@@ -37,15 +37,32 @@ namespace Cragmoor
 					{
 						Cell current = Cell();
 						
-						current.floor_height = (byte)std::min(255.0f, std::max(0.0f, (Generation::Perlin::getPerlin(glm::vec4(x, y, 0, 0), -6.5f, 4.0f, 1.0f) + 1.0f) * 128.0f));
+						float h = Generation::Perlin::getPerlin(glm::vec4(x, y, 0, 1 * this->seed), -10.0f, 5.0f, 1.0f) * 0.75f;
+						float river = 1.0f - std::abs(Generation::Perlin::getPerlin(glm::vec4(x, y, 0, 2 * this->seed), -8.0f, 3.0f, 1.0f, false));
+						h -= std::pow(river + 0.15f, 6.0f) * 0.4f;
+						
+						current.floor_height = (byte)std::min(255.0f, std::max(0.0f, (h + 1.0f) * 128.0f));
 						
 						current.floor_type = ((rand() % 5) / 4) % 2;
+						if (current.floor_height > 200)
+							current.floor_type = 1 + (rand() % 2) * 8;
+						if (current.floor_height > 230)
+							current.floor_type = 9 + rand() % 2;
+						if (current.floor_height > 250)
+							current.floor_type = 10;
 						if (current.floor_height < 170)
 							current.floor_type = ((rand() % 7) / 6 + 1 + rand() % 2) % 3;
 						if (current.floor_height < 80)
-							current.floor_type = 2 + ((rand() % 7) / 6 + 1) % 2;
+						{
+							if (river > 0.8)
+								current.floor_type = 2 + ((rand() % 7) / 6 + 1) % 2;
+							else
+								current.floor_type = 11 + (rand() % 4) / 3;
+						}
 						if (current.floor_height < 60)
-							current.floor_type = 5 + (rand()) % 4;
+							current.floor_type = 5 + rand() % 2;
+						if (river > 0.95f && current.floor_height >= 60 && current.floor_height <= 170)
+							current.floor_type = 7 + rand() % 2;
 						//if (current.floor_height < 160 && current.floor_height > 150)
 							//current.floor_type = 4;
 						

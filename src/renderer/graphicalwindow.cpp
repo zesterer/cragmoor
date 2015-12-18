@@ -49,7 +49,7 @@ namespace Cragmoor
 			
 			/* Create the colour palette */
 			//Dark colours
-			this->palette[0] = Colour(30, 30, 30);
+			this->palette[0] = Colour(0, 0, 0);
 			this->palette[1] = Colour(170, 30, 30);
 			this->palette[2] = Colour(30, 120, 30);
 			this->palette[3] = Colour(170, 110, 30);
@@ -87,8 +87,6 @@ namespace Cragmoor
 			}
 			
 			this->window.update();
-			
-			SDL_Delay(100);
 			
 			this->swapper = (swapper + 1) % 2;
 			

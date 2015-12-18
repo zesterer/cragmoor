@@ -22,7 +22,8 @@ namespace Cragmoor
 				doublebyte block_type = 0;
 				doublebyte floor_type = 0;
 				
-				byte data = 0;
+				quadbyte data = 0; //upper 8 bits contains data mask, lower 24 bits contains entity id
+				//data bites: 0 = contains_block, 1 = contains_entity
 			};
 			
 			class World
@@ -32,7 +33,7 @@ namespace Cragmoor
 					
 					int width = 1024;
 					int height = 1024;
-					octbyte seed = 142857;
+					octbyte seed = 123456;
 					
 					FloorTypeList floor_types;
 				public:

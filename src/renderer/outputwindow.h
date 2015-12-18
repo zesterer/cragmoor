@@ -13,26 +13,6 @@ namespace Cragmoor
 {
 	namespace Renderer
 	{
-		enum OutputColour
-		{
-			BLACK = 0,
-			RED = 1,
-			GREEN = 2,
-			YELLOW = 3,
-			BLUE = 4,
-			MAGENTA = 5,
-			CYAN = 6,
-			GREY = 7,
-			DARK_GREY = 0,
-			LIGHT_RED = 1,
-			LIGHT_GREEN = 2,
-			LIGHT_YELLOW = 3,
-			LIGHT_BLUE = 4,
-			LIGHT_MAGENTA = 5,
-			LIGHT_CYAN = 6,
-			WHITE = 7
-		};
-		
 		struct OutputCell
 		{
 			byte character = ' ';

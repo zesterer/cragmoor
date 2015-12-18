@@ -13,9 +13,12 @@ namespace Cragmoor
 		{
 			private:
 				Position view_focus = Position(0, 0);
+				Entity::Entity* entity_focus = nullptr;
 				
 				World::World world;
 				std::vector<Entity::Entity*> entities;
+				
+				void makeViewFocusSane();
 			public:
 				Game();
 				
@@ -23,7 +26,7 @@ namespace Cragmoor
 				
 				World::World* getWorld();
 				Position getViewFocus() { return this->view_focus; }
-				void setViewFocus(Position view_focus) { this->view_focus = view_focus; }
+				void setViewFocus(Position view_focus);
 				
 				Entity::Entity* getEntity(int id) { return this->entities[id]; }
 				int getEntityCount() { return (int)this->entities.size(); }

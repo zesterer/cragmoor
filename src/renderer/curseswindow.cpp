@@ -1,11 +1,5 @@
-//----standard----
-#include "pthread.h"
-#include "chrono"
-#include "thread"
-#include "iostream"
-
 //----LIBRARY----
-#include "ncursesw/curses.h"
+#include "ncurses/curses.h"
 
 //----LOCAL----
 #include "curseswindow.h"
@@ -27,12 +21,14 @@ namespace Cragmoor
 		
 		void CursesWindow::initiate()
 		{
-			setlocale(LC_ALL, "");
 			initscr();
 			cbreak();
 			noecho();
 			keypad(stdscr, TRUE);
 			curs_set(0);
+			clear();
+			timeout(-1);
+			//nodelay(stdscr, false);
 			
 			this->supports_colour = has_colors();
 			
@@ -100,8 +96,6 @@ namespace Cragmoor
 			
 			refresh();
 			
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			
 			this->swapper = (swapper + 1) % 2;
 			
 			return false;
@@ -164,7 +158,24 @@ namespace Cragmoor
 		
 		InputState CursesWindow::getInputState()
 		{
-			return InputState();
+			InputState input;
+			
+			/*byte c = 0;
+			while (c != ERR)
+			{
+				c = getch();
+				
+				if (c == KEY_UP)
+					input.keyUP = true;
+				if (c == KEY_LEFT)
+					input.keyLEFT = true;
+				if (c == KEY_DOWN)
+					input.keyDOWN = true;
+				if (c == KEY_RIGHT)
+					input.keyRIGHT = true;
+			}*/
+			
+			return input;
 		}
 	}
 }

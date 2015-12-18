@@ -1,7 +1,14 @@
+//----STANDARD----
+#include "pthread.h"
+#include "chrono"
+#include "thread"
+
 //----LOCAL----
 #include "renderer.h"
 #include "graphicalwindow.h"
+
 #include "curseswindow.h"
+
 #include "generic/messagebox.h"
 
 namespace Cragmoor
@@ -13,10 +20,7 @@ namespace Cragmoor
 			this->game = game;
 			this->window = window;
 			
-			if (0)
-				this->window = new CursesWindow();
-			else
-				this->window = new GraphicalWindow();
+			this->window = new GraphicalWindow();
 			
 			this->window->initiate();
 			
@@ -76,6 +80,7 @@ namespace Cragmoor
 			this->should_close |= this->window->tick();
 			
 			this->time ++;
+			std::this_thread::sleep_for(std::chrono::milliseconds(50));
 		}
 		
 		void Renderer::renderGame()
@@ -83,21 +88,29 @@ namespace Cragmoor
 			Game::World::World* world = this->game->getWorld();
 			
 			Position focus = this->game->getViewFocus();
-			focus.x = std::max(0, std::min(world->getWidth(), focus.x));
-			focus.y = std::max(0, std::min(world->getHeight(), focus.y));
 			
 			int width = this->window->getWidth();
 			int height = this->window->getHeight();
+			
+			focus.x -= width / 2;
+			focus.y -= height / 2;
 			
 			//Render floor types
 			for (int x = 0; x < width; x ++)
 			{
 				for (int y = 0; y < height; y ++)
 				{
-					Game::World::Cell* cell = world->getCell(focus.x + x, focus.y + y);
-					Game::World::FloorType floortype = world->getFloorType(cell->floor_type);
-					
-					this->window->setCell(x, y, OutputCell(floortype.character, floortype.foreground, floortype.background));
+					if (Position(focus.x + x, focus.y + y).isInRectangle(0, 0, world->getWidth(), world->getHeight()))
+					{
+						Game::World::Cell* cell = world->getCell(focus.x + x, focus.y + y);
+						Game::World::FloorType floortype = world->getFloorType(cell->floor_type);
+						
+						this->window->setCell(x, y, OutputCell(floortype.character, floortype.foreground, floortype.background));
+					}
+					else
+					{
+						this->window->setCell(x, y, OutputCell(177, CellColour::DARK_GREY, CellColour::BLACK));
+					}
 				}
 			}
 			
